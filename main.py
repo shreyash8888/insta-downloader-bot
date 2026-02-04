@@ -17,7 +17,7 @@ dp = Dispatcher()
 # --- DOWNLOADER LOGIC ---
 def download_video(url):
     ydl_opts = {
-        'format': 'best',  # CHANGED: 'best' is safer than 'mp4/best' on cloud servers
+        'format': 'best',  # <--- CHANGED from 'mp4/best' to 'best'
         'outtmpl': 'downloads/%(id)s.%(ext)s',
         'max_filesize': 50 * 1024 * 1024,
         'quiet': True,
@@ -81,4 +81,5 @@ if __name__ == "__main__":
         os.makedirs("downloads")
 
     asyncio.run(main())
+
 
