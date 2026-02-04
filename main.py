@@ -16,21 +16,19 @@ dp = Dispatcher()
 
 # --- DOWNLOADER LOGIC ---
 def download_video(url):
-    """Downloads video using yt-dlp and returns filename"""
     ydl_opts = {
-        'format': 'mp4/best',
+        'format': 'best',  # CHANGED: 'best' is safer than 'mp4/best' on cloud servers
         'outtmpl': 'downloads/%(id)s.%(ext)s',
         'max_filesize': 50 * 1024 * 1024,
         'quiet': True,
-        'cookiefile': 'cookies.txt'  # <--- ADD THIS LINE
+        'cookiefile': 'cookies.txt',
+        'noplaylist': True
     }
-    # ... rest of the code remains the same
-
-
-    
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
         return ydl.prepare_filename(info)
+
+
 
 # --- BOT HANDLERS ---
 @dp.message(Command("start"))
@@ -83,3 +81,4 @@ if __name__ == "__main__":
         os.makedirs("downloads")
 
     asyncio.run(main())
+
