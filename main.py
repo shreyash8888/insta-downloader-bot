@@ -17,12 +17,18 @@ dp = Dispatcher()
 # --- DOWNLOADER LOGIC ---
 def download_video(url):
     ydl_opts = {
-        'format': 'best',  # <--- CHANGED from 'mp4/best' to 'best'
+        'format': 'best',
         'outtmpl': 'downloads/%(id)s.%(ext)s',
         'max_filesize': 50 * 1024 * 1024,
         'quiet': True,
         'cookiefile': 'cookies.txt',
-        'noplaylist': True
+        'noplaylist': True,
+        # --- NEW TRICK: Pretend to be an Android Phone ---
+        'extractor_args': {
+            'youtube': {
+                'player_client': ['android', 'ios']
+            }
+        }
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
@@ -81,5 +87,6 @@ if __name__ == "__main__":
         os.makedirs("downloads")
 
     asyncio.run(main())
+
 
 
