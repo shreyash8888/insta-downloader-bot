@@ -20,9 +20,14 @@ def download_video(url):
     ydl_opts = {
         'format': 'mp4/best',
         'outtmpl': 'downloads/%(id)s.%(ext)s',
-        'max_filesize': 50 * 1024 * 1024,  # 50MB limit for Telegram
-        'quiet': True
+        'max_filesize': 50 * 1024 * 1024,
+        'quiet': True,
+        'cookiefile': 'cookies.txt'  # <--- ADD THIS LINE
     }
+    # ... rest of the code remains the same
+
+
+    
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
         return ydl.prepare_filename(info)
@@ -76,4 +81,5 @@ if __name__ == "__main__":
     # Create downloads folder if not exists
     if not os.path.exists("downloads"):
         os.makedirs("downloads")
+
     asyncio.run(main())
